@@ -22,7 +22,7 @@ export class AuthenticateController {
   // @HttpCode(201)
   // @UsePipes(new ZodValidationPipe(createAccountBodySchema))
   async handle() {
-    const token = this.jwt.sign({ sub: 'user-1' })
+    const token = this.jwt.sign({ sub: 'user-aqui' })
     return token
   }
 }
