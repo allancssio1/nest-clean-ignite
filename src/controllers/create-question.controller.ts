@@ -36,8 +36,6 @@ export class CreateQuestionController {
         authorId: user.sub,
       },
     })
-
-    return question
   }
 
   private convertToSlug(title: string): string {
