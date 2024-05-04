@@ -11,6 +11,8 @@ const createQuestionBodySchema = z.object({
   content: z.string(),
 })
 
+const bodyValidationPipe = new ZodValidationPipe(createQuestionBodySchema)
+
 type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 
 @Controller('/questions')
@@ -19,9 +21,8 @@ export class CreateQuestionController {
   constructor(private prisma: PrismaService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createQuestionBodySchema))
   async handle(
-    @Body() body: CreateQuestionBodySchema,
+    @Body(bodyValidationPipe) body: CreateQuestionBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
     const { content, title } = body
