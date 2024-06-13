@@ -9,7 +9,7 @@ import { fromZodError } from 'zod-validation-error'
 export class ZodValidationPipe implements PipeTransform {
   constructor(private schme: ZodSchema) {}
 
-  transform(value: any, metadata: ArgumentMetadata) {
+  transform(value: unknown, metadata: ArgumentMetadata) {
     try {
       return this.schme.parse(value)
     } catch (error) {
