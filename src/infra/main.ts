@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config'
 import { Env } from './env'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: false })
+  const app = await NestFactory.create(AppModule, {})
   /**
    * type ConfigService <type, validate? true or false>
    * this case is true because is validate in zod-validation-pipe.ts
