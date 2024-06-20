@@ -3,6 +3,7 @@ import { QuestionsRepsitory } from '@/domain/forum/application/repositories/ques
 import { Question } from '@/domain/forum/enterprise/entities/Question'
 import { PrismaService } from '../pisma.services'
 import { Injectable } from '@nestjs/common'
+import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper'
 
 @Injectable()
 export class PrismaQuestionsRepsitory implements QuestionsRepsitory {
@@ -22,7 +23,9 @@ export class PrismaQuestionsRepsitory implements QuestionsRepsitory {
   findManyRecents({ page }: PaginationParams): Promise<Question[] | []> {
     throw new Error('Method not implemented.')
   }
-  findById(id: string): Promise<Question | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Question | null> {
+    const question = await this.prisma.question.findUnique({ where: { id } })
+
+    return question ? PrismaQuestionMapper.toDomain(question) : null
   }
 }
