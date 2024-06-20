@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/prisma/pisma.services'
+import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { ConflictException, UsePipes } from '@nestjs/common'
 import { Body, Controller, HttpCode, Post } from '@nestjs/common'
 import { hash } from 'bcryptjs'

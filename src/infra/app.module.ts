@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { PrismaService } from './prisma/pisma.services'
 import { ConfigModule } from '@nestjs/config'
 import { envShcema } from './env'
 import { AuthModule } from './auth/auth.module'
