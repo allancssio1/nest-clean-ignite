@@ -6,14 +6,23 @@ import { Question as PrismaQuestion } from '@prisma/client'
 
 export class PrismaQuestionMapper {
   static toDomain(raw: PrismaQuestion): Question {
-    const { authorId, content, createdAt, id, slug, title, updatedAt } = raw
+    const {
+      authorId,
+      content,
+      createdAt,
+      id,
+      slug,
+      title,
+      updatedAt,
+      bestAnswerId,
+    } = raw
     return Question.create(
       {
         authorId: new UniqueEntityId(authorId),
         content,
         title,
         slug: Slug.create(slug),
-        bestAnswerId: undefined,
+        bestAnswerId: bestAnswerId ? new UniqueEntityId(bestAnswerId) : null,
         attachments: undefined,
         createdAt,
         updatedAt,
