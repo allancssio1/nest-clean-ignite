@@ -17,11 +17,20 @@ export class PrismaQuestionsRepsitory implements QuestionsRepsitory {
   save(question: Question): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  findBySlug(slug: string): Promise<Question | null> {
-    throw new Error('Method not implemented.')
+  async findBySlug(slug: string): Promise<Question | null> {
+    const question = await this.prisma.question.findUnique({ where: { slug } })
+
+    return question ? PrismaQuestionMapper.toDomain(question) : null
   }
-  findManyRecents({ page }: PaginationParams): Promise<Question[] | []> {
-    throw new Error('Method not implemented.')
+  async findManyRecents({ page }: PaginationParams): Promise<Question[] | []> {
+    const questions = await this.prisma.question.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+    return questions.map(PrismaQuestionMapper.toDomain)
   }
   async findById(id: string): Promise<Question | null> {
     const question = await this.prisma.question.findUnique({ where: { id } })
