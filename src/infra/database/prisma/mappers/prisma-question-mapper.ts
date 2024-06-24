@@ -2,7 +2,7 @@ import { UniqueEntityId } from '@/core/entities/uniqueEntityId'
 import { Attachment } from '@/domain/forum/enterprise/entities/Attachment'
 import { Question } from '@/domain/forum/enterprise/entities/Question'
 import { Slug } from '@/domain/forum/enterprise/entities/valueObjects/Slug'
-import { Question as PrismaQuestion } from '@prisma/client'
+import { Prisma, Question as PrismaQuestion } from '@prisma/client'
 
 export class PrismaQuestionMapper {
   static toDomain(raw: PrismaQuestion): Question {
@@ -31,26 +31,26 @@ export class PrismaQuestionMapper {
     )
   }
 
-  // static toPrisma(raw: Question): PrismaQuestion {
-  //   const {
-  //     attachments,
-  //     authorId,
-  //     bestAnswerId,
-  //     content,
-  //     createdAt,
-  //     id,
-  //     slug,
-  //     title,
-  //     updatedAt,
-  //   } = raw
-  //   return {
-  //     authorId: authorId.toString(),
-  //     content,
-  //     createdAt,
-  //     id: id.toString(),
-  //     slug: slug.value,
-  //     title,
-  //     updatedAt
-  //   }
-  // }
+  static toPrisma(raw: Question): Prisma.QuestionUncheckedCreateInput {
+    const {
+      attachments,
+      authorId,
+      bestAnswerId,
+      content,
+      createdAt,
+      id,
+      slug,
+      title,
+      updatedAt,
+    } = raw
+    return {
+      id: id.toString(),
+      bestAnswerId: bestAnswerId?.toString(),
+      authorId: authorId.toString(),
+      content,
+      createdAt,
+      slug: slug.value,
+      title,
+    }
+  }
 }
