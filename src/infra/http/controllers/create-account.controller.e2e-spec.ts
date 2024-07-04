@@ -1,5 +1,5 @@
 import { AppModule } from '@/infra/app.module'
-import { PrismaService } from '@/infra/prisma/pisma.services'
+import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'

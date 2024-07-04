@@ -20,6 +20,7 @@ import { QuestionsRepsitory } from '@/domain/forum/application/repositories/ques
   ],
   exports: [
     PrismaService,
+    // PrismaQuestionsRepsitory,
     PrismaQuestionAttachmentRepository,
     PrismaAnswerAttachmentRepository,
     PrismaAnswerCommentRepository,

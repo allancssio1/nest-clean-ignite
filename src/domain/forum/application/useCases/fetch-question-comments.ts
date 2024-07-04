@@ -1,6 +1,7 @@
 import { Either, right } from '@/core/Either'
 import { QuestionComment } from '../../enterprise/entities/QuestionComment'
 import { QuestionCommentsRepsitory } from '../repositories/question-comments-repository'
+import { Injectable } from '@nestjs/common'
 
 export interface FetchQuestionCommentsUseCaseRequest {
   page: number

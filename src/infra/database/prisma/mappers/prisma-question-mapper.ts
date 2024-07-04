@@ -32,17 +32,7 @@ export class PrismaQuestionMapper {
   }
 
   static toPrisma(raw: Question): Prisma.QuestionUncheckedCreateInput {
-    const {
-      attachments,
-      authorId,
-      bestAnswerId,
-      content,
-      createdAt,
-      id,
-      slug,
-      title,
-      updatedAt,
-    } = raw
+    const { authorId, bestAnswerId, content, createdAt, id, slug, title } = raw
     return {
       id: id.toString(),
       bestAnswerId: bestAnswerId?.toString(),

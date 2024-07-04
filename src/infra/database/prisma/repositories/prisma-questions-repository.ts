@@ -38,6 +38,7 @@ export class PrismaQuestionsRepsitory implements QuestionsRepsitory {
       take: 20,
       skip: (page - 1) * 20,
     })
+
     return questions.map(PrismaQuestionMapper.toDomain)
   }
 
