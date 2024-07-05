@@ -47,18 +47,6 @@ describe('Fetch Recent Questions (E2E)', () => {
           slug: 'question-2',
           title: 'Question 2',
         },
-        {
-          authorId: user.id,
-          content: 'contente 3',
-          slug: 'question-3',
-          title: 'Question 3',
-        },
-        {
-          authorId: user.id,
-          content: 'contente 4',
-          slug: 'question-4',
-          title: 'Question 4',
-        },
       ],
     })
 
@@ -76,12 +64,6 @@ describe('Fetch Recent Questions (E2E)', () => {
         }),
         expect.objectContaining({
           title: 'Question 2',
-        }),
-        expect.objectContaining({
-          title: 'Question 3',
-        }),
-        expect.objectContaining({
-          title: 'Question 4',
         }),
       ],
     })

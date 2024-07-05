@@ -3,6 +3,7 @@ import { Controller, Get, Query, UseGuards } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/useCases/fetch-recent-questions'
+import { QuestionPresenter } from '../presenters/question-presenter'
 
 const pageQueryParamsSchema = z
   .string()
@@ -23,10 +24,14 @@ export class FetchRecentQuestionController {
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamsSchema,
   ) {
-    const questions = await this.fetchQuestionRecents.execute({
+    const { value, isLeft } = await this.fetchQuestionRecents.execute({
       page,
     })
 
-    return { questions }
+    if (isLeft()) return []
+
+    return {
+      questions: value?.questions.map(QuestionPresenter.toHTTP),
+    }
   }
 }
