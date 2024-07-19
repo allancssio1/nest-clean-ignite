@@ -22,22 +22,5 @@ export class CreateAccountController {
   @UsePipes(new ZodValidationPipe(createAccountBodySchema))
   async handle(@Body() body: CreateAccountBodySchema) {
     const { email, name, password } = createAccountBodySchema.parse(body)
-
-    const userAlreadyExists = await this.prisma.user.findUnique({
-      where: { email },
-    })
-
-    if (userAlreadyExists)
-      throw new ConflictException('user already exists with email equal')
-
-    const password_hash = await hash(password, 8)
-
-    await this.prisma.user.create({
-      data: {
-        email,
-        name,
-        password: password_hash,
-      },
-    })
   }
 }
