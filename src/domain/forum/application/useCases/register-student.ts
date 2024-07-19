@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/core/Either'
 import { Student } from '../../enterprise/entities/Student'
 import { StudentsRepsitory } from '../repositories/students-repository'
-import { ConflictException, Injectable } from '@nestjs/common'
-import { HasherGenerate } from '../cryptography/hasher-generate'
+import { Injectable } from '@nestjs/common'
+import { HashGenerate } from '../cryptography/hasher-generate'
 import { StudentAlreadyExistsError } from './errors/student-already-exists'
 
 interface RegisterStudentUseCaseRequest {
@@ -21,7 +21,7 @@ type RegisterStudentUseCaseResponse = Either<
 export class RegisterStudentUseCase {
   constructor(
     private studentRepository: StudentsRepsitory,
-    private hashGenerate: HasherGenerate,
+    private hashGenerate: HashGenerate,
   ) {}
 
   async execute({
