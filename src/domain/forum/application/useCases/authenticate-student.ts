@@ -42,7 +42,6 @@ export class AuthenticateStudentUseCase {
     const access_token = await this.encrypter.encrypt({
       sub: student.id.toString(),
     })
-    console.log('🚀 ~ AuthenticateStudentUseCase ~ access_token:', access_token)
 
     return right({ access_token })
   }

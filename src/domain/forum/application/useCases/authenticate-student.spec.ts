@@ -17,6 +17,7 @@ describe('Authenticate Student', () => {
   beforeEach(async () => {
     studentsRepository = new StudentsRepositoryInMemory()
     fakeHasher = new FakeHasher()
+    fakeEncrypt = new FakeEncrypter()
     sut = new AuthenticateStudentUseCase(
       studentsRepository,
       fakeHasher,
@@ -28,7 +29,6 @@ describe('Authenticate Student', () => {
       new UniqueEntityId(),
     )
 
-    console.log('🚀 ~ beforeEach ~ newStudent:', newStudent)
     studentsRepository.items.push(newStudent)
   })
   test('Should be able login with a student', async () => {
