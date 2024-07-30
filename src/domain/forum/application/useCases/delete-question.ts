@@ -1,7 +1,7 @@
 import { Either, left, right } from '@/core/Either'
 import { UnauthorazedError } from '@/core/errors/errors/unauthorazed'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { QuestionsRepsitory } from '../repositories/questions-repository'
+import { QuestionsRepository } from '../repositories/questions-repository'
 
 interface DeleteQuestionUseCaseProps {
   questionId: string
@@ -13,7 +13,7 @@ type DeleteQuestionUseCaseResponse = Either<
   null
 >
 export class DeleteQuestionUseCase {
-  constructor(private questionRepository: QuestionsRepsitory) {}
+  constructor(private questionRepository: QuestionsRepository) {}
 
   async execute({
     questionId,

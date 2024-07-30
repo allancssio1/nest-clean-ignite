@@ -1,10 +1,10 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { QuestionsRepsitory } from '@/domain/forum/application/repositories/questions-repository'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/Question'
 import { QuestionAttachmentRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
 import { DomainEvents } from '@/core/events/domain-events'
 
-export class QuestionsRepositoryInMemory implements QuestionsRepsitory {
+export class QuestionsRepositoryInMemory implements QuestionsRepository {
   constructor(
     private questionAttachmentRepository: QuestionAttachmentRepository,
   ) {}

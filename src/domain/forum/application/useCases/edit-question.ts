@@ -5,7 +5,7 @@ import { UnauthorazedError } from '@/core/errors/errors/unauthorazed'
 import { QuestionAttachment } from '../../enterprise/entities/QuestionAttachment'
 import { QuestionAttachmentList } from '../../enterprise/entities/QuestionAttachmentList'
 import { QuestionAttachmentRepository } from '../repositories/question-attachments-repository'
-import { QuestionsRepsitory } from '../repositories/questions-repository'
+import { QuestionsRepository } from '../repositories/questions-repository'
 import { Question } from '../../enterprise/entities/Question'
 
 interface EditQuestionUseCaseProps {
@@ -23,7 +23,7 @@ type EditQuestionUseCaseResponse = Either<
 >
 export class EditQuestionUseCase {
   constructor(
-    private questionRepository: QuestionsRepsitory,
+    private questionRepository: QuestionsRepository,
     private questionAttachmentsRepository: QuestionAttachmentRepository,
   ) {}
 

@@ -1,7 +1,7 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Question } from '../../enterprise/entities/Question'
 
-export abstract class QuestionsRepsitory {
+export abstract class QuestionsRepository {
   abstract create(question: Question): Promise<Question>
   abstract delete(question: Question): Promise<void>
   abstract save(question: Question): Promise<void>

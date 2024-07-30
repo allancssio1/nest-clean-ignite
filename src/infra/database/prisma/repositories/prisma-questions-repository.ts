@@ -1,12 +1,12 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { QuestionsRepsitory } from '@/domain/forum/application/repositories/questions-repository'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/Question'
 import { PrismaService } from '../pisma.services'
 import { Injectable } from '@nestjs/common'
 import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper'
 
 @Injectable()
-export class PrismaQuestionsRepsitory implements QuestionsRepsitory {
+export class PrismaQuestionsRepository implements QuestionsRepository {
   constructor(private readonly prisma: PrismaService) {}
   async create(question: Question): Promise<Question> {
     const data = PrismaQuestionMapper.toPrisma(question)

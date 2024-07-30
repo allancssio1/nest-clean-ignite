@@ -2,7 +2,7 @@ import { Either, left, right } from '@/core/Either'
 import { UnauthorazedError } from '@/core/errors/errors/unauthorazed'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
 import { AnswerRepository } from '../repositories/answer-repository'
-import { QuestionsRepsitory } from '../repositories/questions-repository'
+import { QuestionsRepository } from '../repositories/questions-repository'
 import { Question } from '../../enterprise/entities/Question'
 
 interface ChosenQuestionBestAnswerUseCaseRequest {
@@ -19,7 +19,7 @@ type ChosenQuestionBestAnswerUseCaseResponse = Either<
 export class ChosenQuestionBestAnswerUseCase {
   constructor(
     private answerRepository: AnswerRepository,
-    private questionRepository: QuestionsRepsitory,
+    private questionRepository: QuestionsRepository,
   ) {}
 
   async execute({

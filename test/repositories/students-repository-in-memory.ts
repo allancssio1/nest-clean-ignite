@@ -1,8 +1,8 @@
-import { StudentsRepsitory } from '@/domain/forum/application/repositories/students-repository'
+import { StudentsRepository } from '@/domain/forum/application/repositories/students-repository'
 import { QuestionAttachmentRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
 import { Student } from '@/domain/forum/enterprise/entities/Student'
 
-export class StudentsRepositoryInMemory implements StudentsRepsitory {
+export class StudentsRepositoryInMemory implements StudentsRepository {
   constructor() {}
 
   items: Student[] = []

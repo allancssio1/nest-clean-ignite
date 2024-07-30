@@ -1,7 +1,7 @@
 import { Either, left, right } from '@/core/Either'
 import { UnauthorazedError } from '@/core/errors/errors/unauthorazed'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found'
-import { QuestionCommentsRepsitory } from '../repositories/question-comments-repository'
+import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
 
 interface DeleteQuestionCommentUseCaseRequest {
   authorId: string
@@ -14,7 +14,7 @@ type DeleteQuestionCommentUseCaseResponse = Either<
 >
 
 export class DeleteQuestionCommentUseCase {
-  constructor(private questionCommentRepository: QuestionCommentsRepsitory) {}
+  constructor(private questionCommentRepository: QuestionCommentsRepository) {}
 
   async execute({
     authorId,

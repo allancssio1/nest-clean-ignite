@@ -4,6 +4,7 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common'
 import { hash } from 'bcryptjs'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { RegisterStudentUseCase } from '@/domain/forum/application/useCases/register-student'
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -15,12 +16,16 @@ type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
 @Controller('/accounts')
 export class CreateAccountController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private registerStudent: RegisterStudentUseCase) {}
 
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createAccountBodySchema))
   async handle(@Body() body: CreateAccountBodySchema) {
     const { email, name, password } = createAccountBodySchema.parse(body)
+
+    const result = await this.registerStudent.execute({ email, name, password })
+
+    if (result.isLeft()) throw new Error()
   }
 }

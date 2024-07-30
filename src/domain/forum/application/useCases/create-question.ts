@@ -3,7 +3,7 @@ import { UniqueEntityId } from '@/core/entities/uniqueEntityId'
 import { Question } from '../../enterprise/entities/Question'
 import { QuestionAttachment } from '../../enterprise/entities/QuestionAttachment'
 import { QuestionAttachmentList } from '../../enterprise/entities/QuestionAttachmentList'
-import { QuestionsRepsitory } from '../repositories/questions-repository'
+import { QuestionsRepository } from '../repositories/questions-repository'
 import { Injectable } from '@nestjs/common'
 
 interface CreateQuestionUseCaseRequest {
@@ -21,7 +21,7 @@ type CreateQuestionUseCaseResponse = Either<
 
 @Injectable()
 export class CreateQuestionUseCase {
-  constructor(private questionRepository: QuestionsRepsitory) {}
+  constructor(private questionRepository: QuestionsRepository) {}
 
   async execute({
     authorId,

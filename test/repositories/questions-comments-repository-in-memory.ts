@@ -1,11 +1,11 @@
 // import { PaginationParams } from '@/core/repositories/pagination-params'
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { QuestionCommentsRepsitory } from '@/domain/forum/application/repositories/question-comments-repository'
+import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 import { QuestionComment } from '@/domain/forum/enterprise/entities/QuestionComment'
 import { DomainEvents } from '@/core/events/domain-events'
 
 export class QuestionCommentsRepositoryInMemory
-  implements QuestionCommentsRepsitory
+  implements QuestionCommentsRepository
 {
   items: QuestionComment[] = []
   async create(questionComment: QuestionComment) {
