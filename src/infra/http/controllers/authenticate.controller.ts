@@ -1,15 +1,13 @@
 import {
-  ConflictException,
+  BadRequestException,
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
-import { Body, Controller, HttpCode, Post } from '@nestjs/common'
-import { compare } from 'bcryptjs'
+import { Body, Controller, Post } from '@nestjs/common'
 import { z } from 'zod'
-import { JwtService } from '@nestjs/jwt'
-import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { AuthenticateStudentUseCase } from '@/domain/forum/application/useCases/authenticate-student'
+import { WrongCredentialsError } from '@/domain/forum/application/useCases/errors/wrong-credentials-error'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -29,7 +27,16 @@ export class AuthenticateController {
 
     const result = await this.authStudent.execute({ email, password })
 
-    if (result.isLeft()) throw new Error()
+    if (result.isLeft()) {
+      const error = result.value
+
+      switch (error.constructor) {
+        case WrongCredentialsError:
+          throw new UnauthorizedException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
 
     const { access_token } = result.value
 

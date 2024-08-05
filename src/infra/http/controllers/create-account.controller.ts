@@ -1,10 +1,13 @@
-import { PrismaService } from '@/infra/database/prisma/pisma.services'
-import { ConflictException, UsePipes } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  UsePipes,
+} from '@nestjs/common'
 import { Body, Controller, HttpCode, Post } from '@nestjs/common'
-import { hash } from 'bcryptjs'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { RegisterStudentUseCase } from '@/domain/forum/application/useCases/register-student'
+import { StudentAlreadyExistsError } from '@/domain/forum/application/useCases/errors/student-already-exists'
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -26,6 +29,15 @@ export class CreateAccountController {
 
     const result = await this.registerStudent.execute({ email, name, password })
 
-    if (result.isLeft()) throw new Error()
+    if (result.isLeft()) {
+      const error = result.value
+
+      switch (error.constructor) {
+        case StudentAlreadyExistsError:
+          throw new ConflictException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
   }
 }

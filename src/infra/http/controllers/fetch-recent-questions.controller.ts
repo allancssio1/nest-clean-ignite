@@ -1,5 +1,11 @@
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
-import { Controller, Get, Query, UseGuards } from '@nestjs/common'
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/useCases/fetch-recent-questions'
@@ -16,7 +22,6 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamsSchema)
 type PageQueryParamsSchema = z.infer<typeof pageQueryParamsSchema>
 
 @Controller('/questions')
-@UseGuards(JwtAuthGuard)
 export class FetchRecentQuestionController {
   constructor(private fetchQuestionRecents: FetchRecentQuestionsUseCase) {}
 
@@ -24,14 +29,16 @@ export class FetchRecentQuestionController {
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamsSchema,
   ) {
-    const { value, isLeft } = await this.fetchQuestionRecents.execute({
+    const result = await this.fetchQuestionRecents.execute({
       page,
     })
 
-    if (isLeft()) return []
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
 
     return {
-      questions: value?.questions.map(QuestionPresenter.toHTTP),
+      questions: result.value?.questions.map(QuestionPresenter.toHTTP),
     }
   }
 }
