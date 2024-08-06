@@ -5,7 +5,7 @@ export interface CommentProps {
   authorId: UniqueEntityId
   content: string
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 /**
  * Comment<> => utilizando um generic do typescript
@@ -16,17 +16,25 @@ export interface CommentProps {
 export abstract class Comment<
   Props extends CommentProps,
 > extends AggregateRoot<Props> {
-  public get content(): string {
-    return this.props.content
-  }
-
   public get authorId() {
     return this.props.authorId
+  }
+
+  public get content(): string {
+    return this.props.content
   }
 
   public set content(content: string) {
     this.props.content = content
     this.touch()
+  }
+
+  public get createdAt() {
+    return this.props.createdAt
+  }
+
+  public get updatedAt() {
+    return this.props.updatedAt
   }
 
   private touch() {
