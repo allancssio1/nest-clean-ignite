@@ -1,4 +1,8 @@
+import { QuestionFactory } from '#/factories/make-question'
+import { StudentFactory } from '#/factories/make-student'
+import { Slug } from '@/domain/forum/enterprise/entities/valueObjects/Slug'
 import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
@@ -8,14 +12,19 @@ import request from 'supertest'
 describe('Get Question By Slug (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
+  let studentFactory: StudentFactory
+  let questionFactory: QuestionFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, DatabaseModule],
+      providers: [StudentFactory, QuestionFactory],
     }).compile()
 
     prisma = moduleRef.get(PrismaService)
+    studentFactory = moduleRef.get(StudentFactory)
+    questionFactory = moduleRef.get(QuestionFactory)
     jwt = moduleRef.get(JwtService)
 
     app = moduleRef.createNestApplication()
@@ -23,23 +32,13 @@ describe('Get Question By Slug (E2E)', () => {
   })
 
   test('[GET] /questions/:slug', async () => {
-    const user = await prisma.user.create({
-      data: {
-        email: 'johndoe@example.com',
-        password: '123456',
-        name: 'John Doe',
-      },
-    })
+    const user = await studentFactory.makePrismaStudent()
 
-    const access_token = jwt.sign({ sub: user.id })
+    const access_token = jwt.sign({ sub: user.id.toString() })
 
-    await prisma.question.create({
-      data: {
-        authorId: user.id,
-        content: 'contente 1',
-        slug: 'question-1',
-        title: 'Question 1',
-      },
+    questionFactory.makePrismaQuestion({
+      authorId: user.id,
+      slug: Slug.create('question-1'),
     })
 
     const response = await request(app.getHttpServer())
@@ -51,7 +50,7 @@ describe('Get Question By Slug (E2E)', () => {
 
     expect(response.body).toEqual({
       question: expect.objectContaining({
-        title: 'Question 1',
+        slug: 'question-1',
       }),
     })
   })

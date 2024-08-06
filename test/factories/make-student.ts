@@ -4,8 +4,11 @@ import {
   Student,
   StudentProps,
 } from '@/domain/forum/enterprise/entities/Student'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '@/infra/database/prisma/pisma.services'
+import { PrismaStudentMapper } from '@/infra/database/prisma/mappers/prisma-student-mapper'
 
-export async function makeStudent(
+export function makeStudent(
   override: Partial<StudentProps> = {},
   id?: UniqueEntityId,
 ) {
@@ -20,4 +23,18 @@ export async function makeStudent(
   )
 
   return student
+}
+
+@Injectable()
+export class StudentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
+    const student = makeStudent(data)
+
+    await this.prisma.user.create({
+      data: PrismaStudentMapper.toPrisma(student),
+    })
+    return student
+  }
 }
