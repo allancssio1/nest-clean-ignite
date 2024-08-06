@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { PrismaService } from './prisma/pisma.services'
 import { PrismaQuestionAttachmentRepository } from './prisma/repositories/prisma-question-attachments-repository'
 import { PrismaAnswerAttachmentRepository } from './prisma/repositories/prisma-answer-attachments-repository'
-import { PrismaAnswerCommentRepository } from './prisma/repositories/prisma-answer-comments-repository'
+import { PrismaAnswerCommentsRepository } from './prisma/repositories/prisma-answer-comments-repository'
 import { PrismaAnswerRepository } from './prisma/repositories/prisma-answer-repository'
 import { PrismaQuestionCommentsRepository } from './prisma/repositories/prisma-question-comments-repository'
 import { PrismaQuestionsRepository } from './prisma/repositories/prisma-questions-repository'
@@ -17,7 +17,7 @@ import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-
     { provide: StudentsRepository, useClass: PrismaStudentsRepository },
     PrismaQuestionAttachmentRepository,
     PrismaAnswerAttachmentRepository,
-    PrismaAnswerCommentRepository,
+    PrismaAnswerCommentsRepository,
     PrismaAnswerRepository,
     PrismaQuestionCommentsRepository,
   ],
@@ -26,7 +26,7 @@ import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-
     // PrismaQuestionsRepository,
     PrismaQuestionAttachmentRepository,
     PrismaAnswerAttachmentRepository,
-    PrismaAnswerCommentRepository,
+    PrismaAnswerCommentsRepository,
     PrismaAnswerRepository,
     PrismaQuestionCommentsRepository,
     QuestionsRepository,

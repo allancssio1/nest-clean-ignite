@@ -2,7 +2,7 @@ import { UniqueEntityId } from '@/core/entities/uniqueEntityId'
 import { QuestionComment } from '@/domain/forum/enterprise/entities/QuestionComment'
 import { Prisma, Comment as PrismaQuestionComment } from '@prisma/client'
 
-export class PrismaQuestionCommentCommentMapper {
+export class PrismaQuestionCommentMapper {
   static toDomain(raw: PrismaQuestionComment): QuestionComment {
     const { id, questionId, authorId, content, createdAt, updatedAt } = raw
 
