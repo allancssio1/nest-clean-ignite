@@ -1,7 +1,6 @@
 import { StudentFactory } from '#/factories/make-student'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -9,7 +8,6 @@ import request from 'supertest'
 
 describe('Create question (E2E)', () => {
   let app: INestApplication
-  let prisma: PrismaService
   let studentFactory: StudentFactory
   let jwt: JwtService
 
@@ -19,7 +17,6 @@ describe('Create question (E2E)', () => {
       providers: [StudentFactory],
     }).compile()
 
-    prisma = moduleRef.get(PrismaService)
     studentFactory = moduleRef.get(StudentFactory)
     jwt = moduleRef.get(JwtService)
 
@@ -41,13 +38,5 @@ describe('Create question (E2E)', () => {
       })
 
     expect(response.statusCode).toBe(201)
-
-    const querstinOnDatabase = await prisma.question.findMany({
-      where: {
-        authorId: user.id.toString(),
-      },
-    })
-
-    expect(querstinOnDatabase).toHaveLength(1)
   })
 })

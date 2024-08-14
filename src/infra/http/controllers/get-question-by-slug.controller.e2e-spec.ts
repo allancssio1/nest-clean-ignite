@@ -3,7 +3,6 @@ import { StudentFactory } from '#/factories/make-student'
 import { Slug } from '@/domain/forum/enterprise/entities/valueObjects/Slug'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/pisma.services'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -11,7 +10,6 @@ import request from 'supertest'
 
 describe('Get Question By Slug (E2E)', () => {
   let app: INestApplication
-  let prisma: PrismaService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
   let jwt: JwtService
@@ -22,7 +20,6 @@ describe('Get Question By Slug (E2E)', () => {
       providers: [StudentFactory, QuestionFactory],
     }).compile()
 
-    prisma = moduleRef.get(PrismaService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
     jwt = moduleRef.get(JwtService)
