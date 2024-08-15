@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   HttpCode,
   Param,
   Put,
@@ -11,36 +12,24 @@ import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { z } from 'zod'
 import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-question'
-
-const editQuestionBodySchema = z.object({
-  title: z.string(),
-  content: z.string(),
-})
-
-const bodyValidationPipe = new ZodValidationPipe(editQuestionBodySchema)
-
-type EditQuestionBodySchema = z.infer<typeof editQuestionBodySchema>
+import { DeleteQuestionUseCase } from '@/domain/forum/application/useCases/delete-question'
 
 @Controller('/questions/:id')
-export class EditQuestionController {
-  constructor(private editQuestion: EditQuestionUseCase) {}
+export class DeleteQuestionController {
+  constructor(private deleteQuestion: DeleteQuestionUseCase) {}
 
-  @Put()
-  @HttpCode(204)
+  @Delete()
+  @HttpCode(200)
   async handle(
-    @Body(bodyValidationPipe) body: EditQuestionBodySchema,
+    // @Body(bodyValidationPipe) body: EditQuestionBodySchema,
     @Param('id') questionId: string,
     @CurrentUser()
     user: UserPayload,
   ) {
-    const { content, title } = body
     const userId = user.sub
 
-    const result = await this.editQuestion.execute({
-      attachmentsIds: [],
+    const result = await this.deleteQuestion.execute({
       authorId: userId,
-      content,
-      title,
       questionId,
     })
 

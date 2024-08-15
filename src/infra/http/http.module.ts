@@ -1,18 +1,22 @@
+import { AuthenticateStudentUseCase } from '@/domain/forum/application/useCases/authenticate-student'
+import { CreateQuestionUseCase } from '@/domain/forum/application/useCases/create-question'
+import { DeleteQuestionUseCase } from '@/domain/forum/application/useCases/delete-question'
+import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-question'
+import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/useCases/fetch-recent-questions'
+import { GetQuestionBySlugUseCase } from '@/domain/forum/application/useCases/get-question-by-slug'
+import { RegisterStudentUseCase } from '@/domain/forum/application/useCases/register-student'
 import { Module } from '@nestjs/common'
+import { CryptographyModule } from '../cryptography/cryptography.module'
+import { DatabaseModule } from '../database/database.module'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateAccountController } from './controllers/create-account.controller'
 import { CreateQuestionController } from './controllers/create-question.controller'
-import { FetchRecentQuestionController } from './controllers/fetch-recent-questions.controller'
-import { DatabaseModule } from '../database/database.module'
-import { CreateQuestionUseCase } from '@/domain/forum/application/useCases/create-question'
-import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/useCases/fetch-recent-questions'
-import { AuthenticateStudentUseCase } from '@/domain/forum/application/useCases/authenticate-student'
-import { RegisterStudentUseCase } from '@/domain/forum/application/useCases/register-student'
-import { CryptographyModule } from '../cryptography/cryptography.module'
-import { GetQuestionBySlugController } from './controllers/getQuestionBySlug.controller'
-import { GetQuestionBySlugUseCase } from '@/domain/forum/application/useCases/get-question-by-slug'
+import { DeleteQuestionController } from './controllers/delete-question.controller'
 import { EditQuestionController } from './controllers/edit-question.controller'
-import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-question'
+import { FetchRecentQuestionController } from './controllers/fetch-recent-questions.controller'
+import { GetQuestionBySlugController } from './controllers/getQuestionBySlug.controller'
+import { AnswerQuestionController } from './controllers/answer-question.controller'
+import { AnswerQuestionUseCase } from '@/domain/forum/application/useCases/answer-question'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,6 +27,8 @@ import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-qu
     FetchRecentQuestionController,
     GetQuestionBySlugController,
     EditQuestionController,
+    DeleteQuestionController,
+    AnswerQuestionController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -31,6 +37,8 @@ import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-qu
     RegisterStudentUseCase,
     GetQuestionBySlugUseCase,
     EditQuestionUseCase,
+    DeleteQuestionUseCase,
+    AnswerQuestionUseCase,
   ],
 })
 export class HttpModule {}

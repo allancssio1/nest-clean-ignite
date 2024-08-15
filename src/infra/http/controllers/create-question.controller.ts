@@ -12,7 +12,6 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { z } from 'zod'
 import { CreateQuestionUseCase } from '@/domain/forum/application/useCases/create-question'
-// import { NestCreateQuestionUseCase } from '@/infra/factore-use-cases/nest-create-question-use-case'
 
 const createQuestionBodySchema = z.object({
   title: z.string(),
@@ -25,7 +24,6 @@ type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 
 @Controller('/questions')
 export class CreateQuestionController {
-  // constructor(private createQuestion: NestCreateQuestionUseCase) {}
   constructor(private createQuestion: CreateQuestionUseCase) {}
 
   @Post()
