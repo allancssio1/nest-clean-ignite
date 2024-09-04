@@ -10,8 +10,6 @@ import {
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { z } from 'zod'
-import { EditQuestionUseCase } from '@/domain/forum/application/useCases/edit-question'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/useCases/delete-question'
 
 @Controller('/questions/:id')

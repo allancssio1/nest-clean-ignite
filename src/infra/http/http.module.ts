@@ -19,6 +19,8 @@ import { AnswerQuestionController } from './controllers/answer-question.controll
 import { AnswerQuestionUseCase } from '@/domain/forum/application/useCases/answer-question'
 import { EditAnswerController } from './controllers/edit-answer.controller'
 import { EditAnswerUseCase } from '@/domain/forum/application/useCases/edit-answer'
+import { DeleteAnswerController } from './controllers/delete-answer.controller'
+import { DeleteAnswerUseCase } from '@/domain/forum/application/useCases/delete-answer'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -32,6 +34,7 @@ import { EditAnswerUseCase } from '@/domain/forum/application/useCases/edit-answ
     DeleteQuestionController,
     AnswerQuestionController,
     EditAnswerController,
+    DeleteAnswerController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -43,6 +46,7 @@ import { EditAnswerUseCase } from '@/domain/forum/application/useCases/edit-answ
     DeleteQuestionUseCase,
     AnswerQuestionUseCase,
     EditAnswerUseCase,
+    DeleteAnswerUseCase,
   ],
 })
 export class HttpModule {}
