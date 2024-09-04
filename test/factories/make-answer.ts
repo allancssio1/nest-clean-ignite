@@ -32,6 +32,7 @@ export class AnswerFactory {
     await this.prisma.answer.create({
       data: PrismaAnswerMapper.toPrisma(answer),
     })
+
     return answer
   }
 }

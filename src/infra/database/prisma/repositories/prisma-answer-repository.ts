@@ -23,7 +23,8 @@ export class PrismaAnswerRepository implements AnswerRepository {
 
   async save(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
-    await this.prisma.answer.create({
+    await this.prisma.answer.update({
+      where: { id: answer.id.toString() },
       data,
     })
   }
