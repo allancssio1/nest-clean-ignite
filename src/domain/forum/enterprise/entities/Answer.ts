@@ -44,6 +44,14 @@ export class Answer extends AggregateRoot<AnswerProps> {
     return this.content.substring(0, 120).trimEnd().concat('...')
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
