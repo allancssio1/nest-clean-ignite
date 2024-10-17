@@ -31,6 +31,8 @@ import { DeleteQuestionCommentController } from './controllers/delete-question-c
 import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/useCases/delete-question-comment'
 import { CommentAnswerController } from './controllers/comment-on-answer.controller'
 import { CommentOnAnswerUseCase } from '@/domain/forum/application/useCases/comment-on-answer'
+import { DeleteAnswerCommentController } from './controllers/delete-answer-comment.controller'
+import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/useCases/delete-answer-comment'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -49,6 +51,7 @@ import { CommentOnAnswerUseCase } from '@/domain/forum/application/useCases/comm
     ChooseQuestionBestAnswerController,
     CommentQuestionController,
     DeleteQuestionCommentController,
+    DeleteAnswerCommentController,
     CommentAnswerController
   ],
   providers: [
@@ -66,6 +69,7 @@ import { CommentOnAnswerUseCase } from '@/domain/forum/application/useCases/comm
     ChoosenQuestionBestAnswerUseCase,
     CommentOnQuestionUseCase,
     DeleteQuestionCommentUseCase,
+    DeleteAnswerCommentUseCase,
     CommentOnAnswerUseCase
   ],
 })

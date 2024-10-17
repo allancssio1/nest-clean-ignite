@@ -1,5 +1,6 @@
+import { AnswerFactory } from '#/factories/make-answer'
+import { makeAnswerComment, AnswerCommentFactory } from '#/factories/make-answer-comment'
 import { QuestionFactory } from '#/factories/make-question'
-import { makeQuestionComment, QuestionCommentFactory } from '#/factories/make-question-comment'
 import { StudentFactory } from '#/factories/make-student'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
@@ -9,18 +10,19 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Delete question comment (E2E)', () => {
+describe('Delete answer comment (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
-  let questionCommentFactory: QuestionCommentFactory
+  let answerFactory: AnswerFactory
+  let answerCommentFactory: AnswerCommentFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory, QuestionCommentFactory],
+      providers: [StudentFactory, AnswerFactory, AnswerCommentFactory, QuestionFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -28,28 +30,34 @@ describe('Delete question comment (E2E)', () => {
     studentFactory = moduleRef.get(StudentFactory)
     prisma = moduleRef.get(PrismaService)
     questionFactory = moduleRef.get(QuestionFactory)
-    questionCommentFactory = moduleRef.get(QuestionCommentFactory)
+    answerFactory = moduleRef.get(AnswerFactory)
+    answerCommentFactory = moduleRef.get(AnswerCommentFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
   })
 
-  test('[DELETE] /questions/comment/:commentId', async () => {
+  test('[DELETE] /answers/comment/:commentId', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const access_token = jwt.sign({ sub: user.id.toString() })
 
     const question = await questionFactory.makePrismaQuestion({
-      authorId: user.id,
+      authorId: user.id
     })
 
-    const comment = await questionCommentFactory.makePrismaQuestionComment({
+    const answer = await answerFactory.makePrismaAnswer({
       authorId: user.id,
       questionId: question.id
     })
 
+    const comment = await answerCommentFactory.makePrismaAnswerComment({
+      authorId: user.id,
+      answerId: answer.id
+    })
+
     const response = await request(app.getHttpServer())
-      .delete(`/questions/comments/${comment.id.toString()}`)
+      .delete(`/answers/comments/${comment.id.toString()}`)
       .set({ Authorization: `Bearer ${access_token}` })
       .send()
 
