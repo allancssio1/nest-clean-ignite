@@ -53,13 +53,14 @@ describe('Delete question comment (E2E)', () => {
       .set({ Authorization: `Bearer ${access_token}` })
       .send()
 
-    // const commentOnDB = await prisma.comment.findFirst({
-    //   where: {
-    //     id: comment.id.toString()
-    //   }
-    // })
+    const commentOnDB = await prisma.comment.findFirst({
+      where: {
+        id: comment.id.toString()
+      }
+    })
+    console.log("🚀 ~ test ~ commentOnDB:", commentOnDB)
     
     expect(response.statusCode).toBe(204)
-    // expect(commentOnDB).toBe(false)
+    expect(commentOnDB).toBe(null)
   })
 })
