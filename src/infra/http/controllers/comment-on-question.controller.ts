@@ -1,4 +1,3 @@
-import { CommentOnAnswerUseCase } from '@/domain/forum/application/useCases/comment-on-answer'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import {
