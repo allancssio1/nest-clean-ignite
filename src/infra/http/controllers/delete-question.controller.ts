@@ -1,13 +1,10 @@
 import {
   BadRequestException,
-  Body,
   Controller,
   Delete,
   HttpCode,
   Param,
-  Put,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { DeleteQuestionUseCase } from '@/domain/forum/application/useCases/delete-question'
