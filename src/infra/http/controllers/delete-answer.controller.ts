@@ -21,7 +21,6 @@ export class DeleteAnswerController {
     user: UserPayload,
   ) {
     const userId = user.sub
-    console.log('1', answerId)
     const result = await this.deleteAnswer.execute({
       authorId: userId,
       answerId,
