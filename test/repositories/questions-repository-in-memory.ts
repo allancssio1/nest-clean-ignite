@@ -12,6 +12,10 @@ export class QuestionsRepositoryInMemory implements QuestionsRepository {
   items: Question[] = []
   async create(question: Question) {
     await this.items.push(question)
+    await this.questionAttachmentRepository.createMany(
+      question.attachments.getItems(),
+    )
+
     DomainEvents.dispatchEventsForAggregate(question.id)
 
     return question
@@ -49,6 +53,14 @@ export class QuestionsRepositoryInMemory implements QuestionsRepository {
 
   async save(question: Question) {
     const itemIndex = this.items.findIndex((item) => item.id === question.id)
+
+    await this.questionAttachmentRepository.createMany(
+      question.attachments.getNewItems(),
+    )
+    await this.questionAttachmentRepository.deleteMany(
+      question.attachments.getRemovedItems(),
+    )
+
     DomainEvents.dispatchEventsForAggregate(question.id)
 
     this.items[itemIndex] = question
