@@ -8,10 +8,7 @@ import { PrismaQuestionAttachmentMapper } from '../mappers/prisma-question-attac
 export class PrismaQuestionAttachmentRepository
   implements QuestionAttachmentRepository
 {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly questionAttachmentRepository: QuestionAttachmentRepository,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
   async findManyByQuestionId(
     questionId: string,
   ): Promise<QuestionAttachment[]> {
