@@ -28,18 +28,16 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   async save(question: Question): Promise<void> {
     const data = PrismaQuestionMapper.toPrisma(question)
 
-    Promise.all([
-      this.prisma.question.update({
-        data,
-        where: { id: data.id },
-      }),
-      this.questionAttachmentsRepository.createMany(
-        question.attachments.getNewItems(),
-      ),
-      this.questionAttachmentsRepository.deleteMany(
-        question.attachments.getRemovedItems(),
-      ),
-    ])
+    await this.prisma.question.update({
+      data,
+      where: { id: data.id },
+    })
+    await this.questionAttachmentsRepository.createMany(
+      question.attachments.getNewItems(),
+    )
+    await this.questionAttachmentsRepository.deleteMany(
+      question.attachments.getRemovedItems(),
+    )
   }
 
   async findBySlug(slug: string): Promise<Question | null> {

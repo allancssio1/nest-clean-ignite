@@ -52,7 +52,6 @@ describe('Edit question (E2E)', () => {
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
     })
-
     await questinAttachmentsFactory.makePrismaQuestionAttachment({
       attachmentId: attachment1.id,
       questionId: question.id,
@@ -63,6 +62,7 @@ describe('Edit question (E2E)', () => {
     })
 
     const attachment3 = await attachmentsFactory.makePrismaAttachment()
+    const attachment4 = await attachmentsFactory.makePrismaAttachment()
 
     const response = await request(app.getHttpServer())
       .put(`/questions/${question.id.toString()}`)
@@ -70,7 +70,11 @@ describe('Edit question (E2E)', () => {
       .send({
         title: 'New Question',
         content: 'Content from new question on tests',
-        attachments: [attachment1.id.toString(), attachment3.id.toString()],
+        attachments: [
+          attachment1.id.toString(),
+          attachment3.id.toString(),
+          attachment4.id.toString(),
+        ],
       })
 
     expect(response.statusCode).toBe(204)
@@ -81,14 +85,16 @@ describe('Edit question (E2E)', () => {
       },
     })
 
-    expect(attachmentOnDatabase).toHaveLength(2)
-    expect(attachmentOnDatabase).toEqual([
-      expect.objectContaining({
-        id: attachment1.id.toString(),
-      }),
-      expect.objectContaining({
-        id: attachment3.id.toString(),
-      }),
-    ])
+    expect(attachmentOnDatabase).toHaveLength(3)
+    expect(attachmentOnDatabase).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: attachment1.id.toString(),
+        }),
+        expect.objectContaining({
+          id: attachment3.id.toString(),
+        }),
+      ]),
+    )
   })
 })
