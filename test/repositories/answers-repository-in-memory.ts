@@ -12,6 +12,9 @@ export class AnswersRepositoryInMemory implements AnswerRepository {
   items: Answer[] = []
   async create(answer: Answer): Promise<Answer> {
     await this.items.push(answer)
+    await this.answerAttachmentRepository.createMany(
+      answer.attachments.getItems(),
+    )
 
     DomainEvents.dispatchEventsForAggregate(answer.id)
 
@@ -36,6 +39,13 @@ export class AnswersRepositoryInMemory implements AnswerRepository {
 
   async save(answer: Answer) {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
+
+    await this.answerAttachmentRepository.createMany(
+      answer.attachments.getNewItems(),
+    )
+    await this.answerAttachmentRepository.deleteMany(
+      answer.attachments.getRemovedItems(),
+    )
 
     this.items[itemIndex] = answer
 

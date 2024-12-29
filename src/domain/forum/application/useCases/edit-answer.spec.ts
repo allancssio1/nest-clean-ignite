@@ -6,6 +6,7 @@ import { UniqueEntityId } from '@/core/entities/uniqueEntityId'
 import { AnswerAttachmentsRepositoryInMemory } from '#/repositories/answers-attachments-repository-in-memory'
 import { makeAnswerAttachment } from '#/factories/make-answer-attachment'
 import { Answer } from '../../enterprise/entities/Answer'
+import { UnauthorazedError } from '@/core/errors/errors/unauthorazed'
 
 describe('Edit Answer', () => {
   let answersRepository: AnswersRepositoryInMemory
@@ -40,7 +41,7 @@ describe('Edit Answer', () => {
       answerId: newAnswer.id.toString(),
       authorId: 'author-1',
       content: 'new Content',
-      attachmentsIds: ['1', '3'],
+      attachmentsIds: [],
     })
 
     expect(res.isRight()).toBe(true)
@@ -48,11 +49,6 @@ describe('Edit Answer', () => {
     expect(answersRepository.items[0]).toMatchObject({
       content: 'new Content',
     })
-    expect(answersRepository.items[0].attachments.currentItems).toHaveLength(2)
-    expect(answersRepository.items[0].attachments.currentItems).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
-    ])
   })
   test('Should not be  able edit a answer from another user', async () => {
     const res = await sut.execute({
@@ -64,5 +60,22 @@ describe('Edit Answer', () => {
 
     expect(res.isRight()).toBe(false)
     expect(res.isLeft()).toBe(true)
+  })
+  test('Should sync new and removed attachment when editing an answer', async () => {
+    const res = await sut.execute({
+      answerId: newAnswer.id.toString(),
+      authorId: 'author-1',
+      content: 'new Content',
+      attachmentsIds: ['1', '3', '4'],
+    })
+
+    expect(res.isRight()).toBe(true)
+    expect(res.isLeft()).toBe(false)
+    expect(answersRepository.items[0].attachments.currentItems).toHaveLength(3)
+    expect(answersRepository.items[0].attachments.currentItems).toEqual([
+      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityId('4') }),
+    ])
   })
 })
