@@ -14,7 +14,7 @@ describe('Edit question (E2E)', () => {
   let app: INestApplication
   let studentFactory: StudentFactory
   let attachmentsFactory: AttachmentFactory
-  let questinAttachmentsFactory: QuestionAttachmentFactory
+  let questionAttachmentsFactory: QuestionAttachmentFactory
   let questionFactory: QuestionFactory
   let jwt: JwtService
   let prisma: PrismaService
@@ -34,7 +34,7 @@ describe('Edit question (E2E)', () => {
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
     attachmentsFactory = moduleRef.get(AttachmentFactory)
-    questinAttachmentsFactory = moduleRef.get(QuestionAttachmentFactory)
+    questionAttachmentsFactory = moduleRef.get(QuestionAttachmentFactory)
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
 
@@ -52,11 +52,11 @@ describe('Edit question (E2E)', () => {
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
     })
-    await questinAttachmentsFactory.makePrismaQuestionAttachment({
+    await questionAttachmentsFactory.makePrismaQuestionAttachment({
       attachmentId: attachment1.id,
       questionId: question.id,
     })
-    await questinAttachmentsFactory.makePrismaQuestionAttachment({
+    await questionAttachmentsFactory.makePrismaQuestionAttachment({
       attachmentId: attachment2.id,
       questionId: question.id,
     })
@@ -93,6 +93,9 @@ describe('Edit question (E2E)', () => {
         }),
         expect.objectContaining({
           id: attachment3.id.toString(),
+        }),
+        expect.objectContaining({
+          id: attachment4.id.toString(),
         }),
       ]),
     )

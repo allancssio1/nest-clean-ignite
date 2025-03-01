@@ -40,14 +40,14 @@ export class AnswersRepositoryInMemory implements AnswerRepository {
   async save(answer: Answer) {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
 
+    this.items[itemIndex] = answer
+
     await this.answerAttachmentRepository.createMany(
       answer.attachments.getNewItems(),
     )
     await this.answerAttachmentRepository.deleteMany(
       answer.attachments.getRemovedItems(),
     )
-
-    this.items[itemIndex] = answer
 
     DomainEvents.dispatchEventsForAggregate(answer.id)
   }
