@@ -44,21 +44,12 @@ export class EditAnswerUseCase {
 
     const currentAnswerAttachments =
       await this.answerAttachmentsRepository.findManyByAnswerId(answerId)
-    console.log(
-      '🚀 ~ EditAnswerUseCase ~ currentAnswerAttachments:',
-      currentAnswerAttachments,
-    )
 
     const answerAttachmentList = new AnswerAttachmentList(
       currentAnswerAttachments,
     )
 
     const answerAttachmens = attachmentsIds.map((attachmentId, index) => {
-      console.log(
-        '🚀 ~ EditAnswerUseCase ~ answerAttachmens ~ attachmentId:',
-        index,
-        attachmentId,
-      )
       return AnswerAttachment.create({
         attachmentId: new UniqueEntityId(attachmentId),
         answerId: answer.id,
