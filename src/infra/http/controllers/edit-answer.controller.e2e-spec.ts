@@ -51,9 +51,7 @@ describe('Edit answer (E2E)', () => {
 
     const access_token = jwt.sign({ sub: user.id.toString() })
     const attachment1 = await attachmentsFactory.makePrismaAttachment()
-    console.log('🚀 ~ test ~ attachment1:', attachment1.id.toString())
     const attachment2 = await attachmentsFactory.makePrismaAttachment()
-    console.log('🚀 ~ test ~ attachment2:', attachment2.id.toString())
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
@@ -62,7 +60,7 @@ describe('Edit answer (E2E)', () => {
       authorId: user.id,
       questionId: question.id,
     })
-    console.log('🚀 ~ test ~ answer.id:', answer.id)
+
     await answerAttachmentFactory.makePrismaAnswerAttachment({
       answerId: answer.id,
       attachmentId: attachment1.id,
@@ -73,7 +71,6 @@ describe('Edit answer (E2E)', () => {
     })
 
     const attachment3 = await attachmentsFactory.makePrismaAttachment()
-    console.log('🚀 ~ test ~ attachment3:', attachment3.id.toString())
 
     const response = await request(app.getHttpServer())
       .put(`/answers/${answer.id.toString()}`)
@@ -89,10 +86,6 @@ describe('Edit answer (E2E)', () => {
         answerId: answer.id.toString(),
       },
     })
-    console.log(
-      '🚀 ~ test ~ attachmentOnDatabase:',
-      attachmentOnDatabase.length,
-    )
 
     expect(attachmentOnDatabase).toHaveLength(2)
     expect(attachmentOnDatabase).toEqual([

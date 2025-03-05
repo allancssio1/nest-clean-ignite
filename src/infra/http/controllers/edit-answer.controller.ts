@@ -42,7 +42,6 @@ export class EditAnswerController {
       content,
       answerId,
     })
-    console.log('🚀 ~ EditAnswerController ~ result:', result.value)
 
     if (result.isLeft()) {
       throw new BadRequestException()
