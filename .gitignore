@@ -14,6 +14,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+#packages
+pnpm-lock.yaml
+
 # OS
 .DS_Store
 

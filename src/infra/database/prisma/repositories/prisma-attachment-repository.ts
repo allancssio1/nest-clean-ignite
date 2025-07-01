@@ -11,6 +11,7 @@ export class PrismaAttachmentsRepository implements AttachmentRepository {
   constructor(private readonly prisma: PrismaService) {}
   async create(attachment: Attachment): Promise<void> {
     const data = PrismaAttachmentMapper.toPrisma(attachment)
+    console.log('🚀 ~ PrismaAttachmentsRepository ~ create ~ data:', data)
     await this.prisma.attachment.create({
       data,
     })

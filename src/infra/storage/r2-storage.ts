@@ -13,7 +13,9 @@ export class R2Storage implements Uploader {
 
   constructor(private envService: EnvService) {
     this.client = new S3Client({
-      endpoint: `https://${envService.get('CLOUDFLARE_ACCOUNT_ID')}.r2.cloudflarestorage.com`,
+      endpoint: `https://${envService.get(
+        'CLOUDFLARE_ACCOUNT_ID',
+      )}.r2.cloudflarestorage.com`,
       region: 'auto',
       credentials: {
         accessKeyId: envService.get('AWS_ACCESS_KEY_ID'),
@@ -30,7 +32,8 @@ export class R2Storage implements Uploader {
     const uploadId = randomUUID()
     const uniqueFileName = `${uploadId}-${fileName}`
 
-    await this.client.send(
+    console.log('🚀 ~ R2Storage ~ uniqueFileName:', uniqueFileName)
+    const res = await this.client.send(
       new PutObjectCommand({
         Bucket: this.envService.get('AWS_BUCKET_NAME'),
         Key: uniqueFileName,
@@ -38,7 +41,10 @@ export class R2Storage implements Uploader {
         Body: body,
       }),
     )
+    console.log('🚀 ~ R2Storage ~ res:', res)
 
+    // não salvar url do arquivo no storag
+    // url pode mudar, o nome do arquivo nao.
     return { url: uniqueFileName }
   }
 }
