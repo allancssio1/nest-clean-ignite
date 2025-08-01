@@ -32,7 +32,6 @@ export class R2Storage implements Uploader {
     const uploadId = randomUUID()
     const uniqueFileName = `${uploadId}-${fileName}`
 
-    console.log('🚀 ~ R2Storage ~ uniqueFileName:', uniqueFileName)
     const res = await this.client.send(
       new PutObjectCommand({
         Bucket: this.envService.get('AWS_BUCKET_NAME'),
@@ -41,7 +40,6 @@ export class R2Storage implements Uploader {
         Body: body,
       }),
     )
-    console.log('🚀 ~ R2Storage ~ res:', res)
 
     // não salvar url do arquivo no storag
     // url pode mudar, o nome do arquivo nao.
